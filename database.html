@@ -1,1 +1,162 @@
-AANGEPASTE DATABASE PAGINA (komt uit canvas)
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Database – Pokemon Grading Services</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #fdfdfd;
+      color: #1f2937;
+    }
+    .top-banner {
+      background-color: #090611;
+      display: flex;
+      justify-content: center;
+      padding: 1rem 2rem;
+    }
+    .logo-wrapper {
+      display: flex;
+      justify-content: center;
+    }
+    .top-banner img {
+      height: 90px;
+      width: auto;
+    }
+    .nav-menu {
+      background-color: #1f1b29;
+      padding: 0.5rem 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .nav-menu a {
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+    .nav-menu a:hover {
+      background-color: #3b3050;
+    }
+    .content {
+      max-width: 900px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+    }
+    .search-box {
+      margin-bottom: 2rem;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #2563eb;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #1e40af;
+    }
+    .kaart-resultaat {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .kaart-resultaat img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 1rem;
+    }
+    .error-message {
+      color: red;
+      font-weight: 600;
+    }
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.9rem;
+      color: #9ca3af;
+      border-top: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body>
+  <div class="top-banner">
+    <div class="logo-wrapper">
+      <img src="logo.png" alt="Pokemon Grading Services Logo">
+    </div>
+  </div>
+  <nav class="nav-menu">
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="partners.html">Partners</a>
+    <a href="database.html">Database</a>
+    <a href="/admin">Login</a>
+  </nav>
+  <div class="content">
+    <h2>Zoek een gegrade kaart</h2>
+    <p>Voer hieronder het certificaatnummer in van je kaart. Als de kaart in ons systeem staat, krijg je direct de details te zien.</p>
+    <div class="search-box">
+      <input type="text" id="certId" placeholder="Bijv. 123456">
+      <button onclick="zoekKaart()">Zoeken</button>
+    </div>
+    <div id="resultaat"></div>
+    <div id="errorMessage" class="error-message" style="display: none;">Certificaatnummer niet gevonden.</div>
+  </div>
+  <footer>
+    © 2025 Pokemon Grading Services – Alle rechten voorbehouden
+  </footer>
+  <script>
+    async function zoekKaart() {
+      const id = document.getElementById('certId').value.trim();
+      const resultaat = document.getElementById('resultaat');
+      const errorMessage = document.getElementById('errorMessage');
+      resultaat.innerHTML = '';
+      errorMessage.style.display = 'none';
+
+      if (id) {
+        try {
+          const response = await fetch(`/api/kaart/check?id=${id}`);
+          const result = await response.json();
+
+          if (result.found && result.data) {
+            resultaat.innerHTML = `
+              <div class="kaart-resultaat">
+                <img src="${result.data.afbeelding}" alt="${result.data.naam}" />
+                <h3>${result.data.naam}</h3>
+                <p>Grade: ${result.data.grade}</p>
+              </div>
+            `;
+          } else {
+            errorMessage.style.display = 'block';
+          }
+        } catch (e) {
+          errorMessage.textContent = 'Er is iets misgegaan. Probeer het opnieuw.';
+          errorMessage.style.display = 'block';
+        }
+      } else {
+        errorMessage.textContent = 'Voer een geldig certificaatnummer in.';
+        errorMessage.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>
