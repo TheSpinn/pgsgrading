@@ -7,10 +7,11 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <style>
     body { margin: 0; font-family: 'Inter', sans-serif; background: #fffbea; color: #2d2d2d; }
-    .top-banner { background-color: #090611; display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; }
+    .top-banner { background-color: #090611; display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; flex-wrap: wrap; }
+    .logo-wrapper { flex: 1; display: flex; justify-content: center; margin-bottom: 1rem; }
     .top-banner img { height: 60px; width: auto; }
     .login-icon { color: white; font-size: 1.1rem; text-decoration: none; font-weight: 600; }
-    .nav-menu { background-color: #1f1b29; padding: 0.5rem 2rem; display: flex; justify-content: center; gap: 2rem; }
+    .nav-menu { background-color: #1f1b29; padding: 0.5rem 2rem; display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
     .nav-menu a { color: white; text-decoration: none; font-weight: 600; padding: 0.5rem 1rem; border-radius: 6px; transition: background 0.3s; }
     .nav-menu a:hover { background-color: #3b3050; }
     header { background: white; padding: 2rem 1rem; text-align: center; }
@@ -21,7 +22,9 @@
 </head>
 <body>
   <div class="top-banner">
-    <img src="logo.png" alt="Pokemon Grading Services Logo">
+    <div class="logo-wrapper">
+      <img src="logo.png" alt="Pokemon Grading Services Logo">
+    </div>
     <a href="/admin" class="login-icon">Login</a>
   </div>
   <nav class="nav-menu">
